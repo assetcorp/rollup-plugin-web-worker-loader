@@ -1,5 +1,5 @@
 {
-    "name": "rollup-plugin-web-worker-loader",
+    "name": "@delali/rollup-plugin-web-worker-loader",
     "version": "1.6.0",
     "description": "Rollup plugin to handle Web Workers",
     "main": "src/index.js",
@@ -17,9 +17,9 @@
         "worker"
     ],
     "devDependencies": {
-        "eslint": "^7.9.0"
+        "eslint": "^8.26.0"
     },
     "peerDependencies": {
-        "rollup": "^1.9.2 || ^2.0.0"
+        "rollup": "^3.2.3"
     }
 }

@@ -1,5 +1,9 @@
 # rollup-plugin-web-worker-loader
 
+> This is a fork of <https://github.com/darionco/rollup-plugin-web-worker-loader>. I forked this repo in order to make some minor changes and use the SharedWorker implementation which was not yet public. I would maintain this repo fix bugs, and update the package as to when it becomes necessary. Anyone who wants to collaborate on this project is welcome to do so.
+
+## INTRODUCTION
+
 Rollup plugin to handle Web Workers, Service Workers, Shared Workers,
 Audio Worklets, and Paint Worklets. Support for Animation Worklets and
 Layout Worklets is in consideration for when implementations are available
@@ -16,13 +20,21 @@ Supports bundling workers for Node.js environments
 
 ### Getting started
 
+For NPM:
+
+```bash
+npm install -D rollup-plugin-web-worker-loader
 ```
-yarn add rollup-plugin-web-worker-loader --dev
+
+For Yarn:
+
+```bash
+yarn add -D rollup-plugin-web-worker-loader
 ```
 
 Add the plugin to your rollup configuration:
 
-```javascript
+```js
 import webWorkerLoader from 'rollup-plugin-web-worker-loader';
 
 export default {
@@ -39,7 +51,7 @@ export default {
 Bundle the worker code using the RegEx pattern specified in the plugin's configuration.
 By default you can add the prefix `web-worker:` to your imports:
 
-```javascript
+```js
 // here we use the default pattern but any RegEx can be configured
 import DataWorker from 'web-worker:./DataWorker';
 
@@ -49,7 +61,7 @@ dataWorker.postMessage('Hello World!');
 
 #### Shared Worker Example
 
-```javascript
+```js
 import SharedWorker from 'shared-worker:./SharedWorker';
 
 const sharedWorker = new SharedWorker();
@@ -58,7 +70,7 @@ sharedWorker.port.postMessage('Hello World!');
 
 #### Service Worker Example
 
-```javascript
+```js
 import ServiceWorker from 'service-worker:./ServiceWorker';
 
 ServiceWorker.then(function(registration) {
@@ -74,9 +86,10 @@ ServiceWorker.then(function(registration) {
 Audio Worklets require an audio context at instantiation. When you use
 rollup-plugin-web-worker-loader in a browser environment, your import will
 return a constructor to which you can pass an audio context.
+
 ##### Worklet Processor
 
-```javascript
+```js
 class MyAudioWorkletProcessor extends AudioWorkletProcessor {
 }
 
@@ -85,7 +98,7 @@ registerProcessor("my-audio-worklet", MyAudioWorkletProcessor);
 
 ##### Worklet Consumer
 
-```javascript
+```js
 import registerMyAudioWorklet from 'audio-worklet:./MyAudioWorkletFactory';
 
 const audioContext = new AudioContext();
@@ -102,7 +115,7 @@ class MyAudioWorklet extends AudioWorkletNode {
 
 ##### Worklet Processor
 
-```javascript
+```js
 class MyPaintWorklet {
     ...
 }
@@ -112,7 +125,7 @@ registerPaint('my-paint-worklet', MyPaintWorklet);
 
 ##### Worklet Consumer
 
-```javascript
+```js
 import registerMyPaintWorklet from 'paint-worklet:./MyPaintWorkletFactory';
 registerMyPaintWorklet();
 ```
@@ -124,8 +137,10 @@ html {
 ```
 
 ### Configuration
+
 The plugin responds to the following configuration options:
-```javascript
+
+```ts
 webWorkerLoader({
     targetPlatform?: string,        // The platform workers should be built for, can be 'auto', 'browser', 'node' or 'base64'.
                                     // specifying a target platform other than 'auto' reduces the amount of loader code.
@@ -192,12 +207,14 @@ webWorkerLoader({
 ```
 
 ### TypeScript
+
 An example project that uses this plugin with TypeScript can be found [here](https://github.com/darionco/rollup-typescript-webworkers)
 
 **WARNING:** `@rollup/plugin-typescript` is NOT compatible with this plugin, use `rollup-plugin-typescript2` instead (see [#38](https://github.com/darionco/rollup-plugin-web-worker-loader/issues/38)).
 
 ### Notes
-**WARNING:** To use code-splitting for the worker scripts, Rollup v1.9.2 or higher is required. See https://github.com/rollup/rollup/issues/2801 for more details.
+
+**WARNING:** To use code-splitting for the worker scripts, Rollup v1.9.2 or higher is required. See <https://github.com/rollup/rollup/issues/2801> for more details.
 
 The `sourcemap` configuration option is ignored when `inline` is set to `false`, in that case the project's sourcemap configuration is inherited.
 
@@ -205,13 +222,11 @@ The `sourcemap` configuration option is ignored when `inline` is set to `false`,
 
 Setting `targetPlatform` to `'base64'` will ignore the `inline` option and will always inline the resulting code.
 
-
 ### Roadmap
+
 - [x] Bundle file as web worker blob
 - [x] Support for dependencies using `import`
 - [x] Include source map
 - [x] Configuration options to inline or code-split workers
-- [ ] ~~Provide capability checks and fallbacks~~ DROPPED (all modern environments support workers) 
+- [ ] ~~Provide capability checks and fallbacks~~ DROPPED (all modern environments support workers)
 - [ ] ~~Avoid code duplication~~ DROPPED (there are better solutions for this purpose)
-
-
